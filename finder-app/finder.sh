@@ -1,18 +1,23 @@
 #!/bin/bash
 
+if [ "$#" -lt 2 ]; then
+echo "Error: Please enter minimum 2 Args " 
+echo "Usage: <Directory List> <search String>"
+exit 1
+fi
+
 filesdir=$1
 searchstr=$2
 
-"Checks if one of the args is missing or not "
-if [ -z "$filesdir" ] || [ -z "$searchstr" ]; then
-echo "Error : You need to specify both of the Arguments 1st is Directory and Other is Search String"
+if [ ! -d "$filesdir" ]; then
+echo "Error : Please Enter Valid Directory Path"
 exit 1
 fi
+echo $filesdir
+X=$(find "$filesdir" -type f | wc -l)
+Y=$(grep -sr "$searchstr" "$filesdir" | wc -l)
 
-"Checks if the given path is a present working directory or not"
-if [ ! -d $filesdir ]; then
-echo "Error: "$filesdir" is not a working directory! Please Enter Path of Working Directory"
-exit 1
-fi
+echo "Number of files = $X and Matched Lines $Y"
+exit 0
 
 
